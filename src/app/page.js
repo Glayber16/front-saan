@@ -24,7 +24,7 @@ export default function Home() {
           </div>
 
           <Link 
-            href="/ferramenta" 
+            href="/inicio" 
             className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-lg bg-[#137fec] px-8 font-medium text-white transition-all hover:bg-[#0f6bc9] hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#137fec]/40"
           >
             <span className="relative text-base font-semibold">Conheça a Ferramenta</span>
