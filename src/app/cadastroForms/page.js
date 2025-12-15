@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { SystemNav } from '@/components/SystemNav';
 
-export default function CriarFormularioPage() {
+export default function CadastroForms() {
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [questions, setQuestions] = useState([
@@ -97,20 +97,6 @@ export default function CriarFormularioPage() {
     }
     const payload = { title: titulo, description: descricao, questions };
     
-    // Simulação de save (mude para seu fetch real)
-    try {
-        const res = await fetch('http://localhost:3000/api/forms', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-        });
-        if (res.ok) {
-            setFeedback({ type: 'success', msg: 'Salvo com sucesso!' });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            setFeedback({ type: 'error', msg: 'Erro ao salvar no servidor.' });
-        }
-    } catch (e) {
-        setFeedback({ type: 'error', msg: 'Erro de conexão.' });
-    }
   };
   return (
     <div className="min-h-screen bg-[#0f172a] text-[#f8fafc] font-sans pb-10">

@@ -55,7 +55,7 @@ export default function VisualizarPage() {
            <div className="flex flex-col items-center justify-center py-20 text-slate-400 border border-dashed border-slate-700 rounded-xl bg-slate-800/50">
              <FolderOpen size={48} className="mb-4 text-slate-500" />
              <p className="mb-4">Nenhum formulário encontrado.</p>
-             <Link href="/admin/criar-formulario" className="text-blue-400 hover:underline">Criar um agora</Link>
+             <Link href="cadastroForms" className="text-blue-400 hover:underline">Criar um agora</Link>
            </div>
         )}
 

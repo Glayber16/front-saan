@@ -31,7 +31,7 @@ export default function PortalPage() {
           </Link>
 
           <Link 
-            href="/avaliador" 
+            href="/getForms" 
             className="group flex flex-col items-center text-center p-10 bg-[#1e293b] border border-[#334155] rounded-xl transition-all duration-200 hover:border-blue-500 hover:-translate-y-1 hover:shadow-xl"
           >
             <div className="w-20 h-20 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -40,6 +40,30 @@ export default function PortalPage() {
             <h2 className="text-2xl font-semibold mb-2">Sou Avaliador</h2>
             <p className="text-[#94a3b8] leading-relaxed">
               Responder avaliações disponíveis e testar a plataforma.
+            </p>
+          </Link>
+          <Link 
+            href="/aplicacoes" 
+            className="group flex flex-col items-center text-center p-10 bg-[#1e293b] border border-[#334155] rounded-xl transition-all duration-200 hover:border-blue-500 hover:-translate-y-1 hover:shadow-xl"
+          >
+            <div className="w-20 h-20 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Settings2 size={40} />
+            </div>
+            <h2 className="text-2xl font-semibold mb-2">Sou Engenheiro</h2>
+            <p className="text-[#94a3b8] leading-relaxed">
+              Cadastrar aplicações e atribuir formulários a avaliadores.
+            </p>
+          </Link>
+          <Link 
+            href="/cliente" 
+            className="group flex flex-col items-center text-center p-10 bg-[#1e293b] border border-[#334155] rounded-xl transition-all duration-200 hover:border-blue-500 hover:-translate-y-1 hover:shadow-xl"
+          >
+            <div className="w-20 h-20 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Settings2 size={40} />
+            </div>
+            <h2 className="text-2xl font-semibold mb-2">Sou Cliente</h2>
+            <p className="text-[#94a3b8] leading-relaxed">
+              Consultar a nota (0 a 10) de acessibilidade por aplicação.
             </p>
           </Link>
 
