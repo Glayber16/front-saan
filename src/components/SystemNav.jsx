@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Layers } from "lucide-react";
+import { Layers, Moon, Sun } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
+
 const NAV_CONFIG = {
   admin: [
     { label: "Home", href: "/" },
@@ -22,39 +24,54 @@ const NAV_CONFIG = {
   ]
 };
 
-
 export function SystemNav({ description = "Avaliação", mode = "public" }) {
   const pathname = usePathname(); 
-
-
+  const { theme, toggleTheme } = useTheme();
   const currentLinks = NAV_CONFIG[mode] || NAV_CONFIG.public;
 
   return (
-    <nav 
-      className="bg-[#1e293b] border-b border-[#334155] px-6 py-4 flex items-center justify-between mb-8 sticky top-0 z-50 shadow-md" 
-      aria-label="Navegação do Sistema"
-    >
-     
+    <nav className="bg-card border-b border-border px-6 py-4 flex items-center justify-between mb-8 sticky top-0 z-50 shadow-sm transition-colors duration-300">
+      
       <div className="flex items-center gap-2 font-bold text-xl">
-        <Layers className="text-blue-500" aria-hidden="true" /> 
-        <span className="text-slate-100">{description}</span>
+        <Layers className="text-primary" aria-hidden="true" /> 
+        <span className="text-foreground transition-colors">{description}</span>
       </div>
       
-      <div className="flex gap-6 font-medium text-lg">
+      <div className="flex items-center gap-6 font-medium text-lg">
         {currentLinks.map((link) => {
           const isActive = pathname === link.href;
-          
           return (
             <Link 
               key={link.href}
               href={link.href}
-              className={'text-[#94a3b8] hover:text-blue-500 focus:text-blue-500'}
+              className={`transition-colors duration-200 outline-none
+                ${isActive 
+                  ? "text-primary font-bold" 
+                  : "text-muted-foreground hover:text-primary focus:text-primary"
+                }
+              `}
               aria-current={isActive ? "page" : undefined}
             >
               {link.label}
             </Link>
           );
         })}
+
+       <div className="h-8 w-px bg-border mx-2 hidden md:block"></div>
+
+      <button
+        onClick={toggleTheme}
+
+        className="flex flex-col items-center justify-center gap-0.5 p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all group"
+        title="Alternar Tema"
+      >
+        <div className="group-hover:text-primary transition-colors">
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </div>
+        <span className="text-[10px] font-bold uppercase tracking-wide leading-none">
+          {theme === 'dark' ? 'Claro' : 'Escuro'}
+        </span>
+      </button>
       </div>
     </nav>
   );

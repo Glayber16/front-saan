@@ -6,14 +6,14 @@ export default function EscalaCard() {
       {LIKERT.map((item) => (
         <div 
           key={item.id} 
-          className="flex flex-col p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200  " >
-    
-          <h3 className="font-bold text-xl text-gray-900 mb-3">
+          className="card-calm flex flex-col p-6" 
+        >
+              
+          <h3 className="font-bold text-xl text-foreground mb-3">
             {item.title}
           </h3>
-          
-          
-          <p className="text-lg text-gray-700 leading-relaxed">
+      
+          <p className="text-lg text-muted-foreground leading-relaxed">
             {item.description}
           </p>
         </div>

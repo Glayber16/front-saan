@@ -5,19 +5,25 @@ import { Info } from "lucide-react";
 import { LikertOption } from "./LikertOption";
 import { LIKERT } from "@/data/likert"; 
 
+
+function getCleanLabel(title) {
+  return title ? title.replace(/^[0-9]+\.\s*/, "") : "";
+}
+
 export function QuestionCard({ question, index }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
-
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-6">
-      <div className="text-lg font-semibold mb-3 text-slate-100">
+    <div className="card-calm p-8 mb-6">
+      
+      <div className="text-lg font-semibold mb-3 text-foreground">
         {index + 1}. {question.text}
       </div>
 
       {question.example && (
-        <div className="mb-6 p-3 bg-slate-900/50 border-l-4 border-slate-700 rounded-r-md text-slate-400 text-sm italic flex items-start gap-2">
-          <Info size={16} className="mt-0.5 shrink-0" />
+        
+        <div className="mb-6 p-3 bg-muted/50 border-l-4 border-primary rounded-r-md text-muted-foreground text-sm italic flex items-start gap-2">
+          <Info size={16} className="mt-0.5 shrink-0 text-primary" />
           <span>Exemplo: {question.example}</span>
         </div>
       )}

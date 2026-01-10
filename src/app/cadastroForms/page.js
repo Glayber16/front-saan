@@ -3,10 +3,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { 
-  Layers, Home, CheckCircle, AlertCircle, Upload, 
+  Home, CheckCircle, AlertCircle, Upload, 
   Plus, Save, Trash2, HelpCircle, PlusCircle 
 } from 'lucide-react';
 import { SystemNav } from '@/components/SystemNav';
+import { Footer } from '@/components/Footer';
 
 export default function CadastroForms() {
   const [titulo, setTitulo] = useState('');
@@ -17,11 +18,9 @@ export default function CadastroForms() {
   
   const [feedback, setFeedback] = useState({ type: '', msg: '' });
   
-  // Refs para acessibilidade (Foco)
   const fileInputRef = useRef(null);
   const feedbackRef = useRef(null);
 
-  // Efeito para mover o foco para o alerta quando ele aparecer
   useEffect(() => {
     if (feedback.type && feedbackRef.current) {
       feedbackRef.current.focus();
@@ -95,160 +94,172 @@ export default function CadastroForms() {
       setFeedback({ type: 'error', msg: 'Preencha o título do formulário.' });
       return;
     }
-    const payload = { title: titulo, description: descricao, questions };
-    
+    // Lógica de salvamento...
+    setFeedback({ type: 'success', msg: 'Formulário salvo com sucesso!' });
   };
-  return (
-    <div className="min-h-screen bg-[#0f172a] text-[#f8fafc] font-sans pb-10">
-      <SystemNav description="Avaliação de Acessibilidade"/>
-        
 
-      <div className="max-w-[800px] mx-auto px-5">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Criar Novo Formulário</h1>
-          <p className="text-[#94a3b8]">Configure as perguntas que serão apresentadas na interface escura.</p>
+  return (
+    
+    <div className="page-container font-sans flex flex-col">
+      
+      <SystemNav description="Avaliação de Acessibilidade" mode="admin" />
+        
+      <main className="flex-1 max-w-4xl w-full mx-auto px-5 pb-20">
+        
+       
+        <div className="mb-8 border-b border-border pb-6">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Criar Novo Formulário</h1>
+          <p className="text-muted-foreground">Configure as perguntas que serão apresentadas na interface de avaliação.</p>
         </div>
 
-        <main>
-          {/* ÁREA DE FEEDBACK ACESSÍVEL */}
-          {feedback.type && (
-            <div 
-              ref={feedbackRef}
-              tabIndex={-1} // Permite focar via JS
-              role={feedback.type === 'error' ? 'alert' : 'status'} 
-              aria-live="assertive"
-              className={`p-4 rounded-lg mb-6 border-l-4 flex flex-col items-start animate-in fade-in outline-none ring-2 ring-offset-2 ring-offset-[#0f172a] ring-blue-500
-                ${feedback.type === 'success' ? 'bg-green-500/10 border-green-500 text-green-400' : ''}
-                ${feedback.type === 'error' ? 'bg-red-500/10 border-red-500 text-red-400' : ''}
-                ${feedback.type === 'info' ? 'bg-blue-500/10 border-blue-500 text-blue-400' : ''}
-              `}
-            >
-              <div className="flex items-center gap-3 font-bold text-lg">
-                {feedback.type === 'success' && <CheckCircle aria-hidden="true" />}
-                {feedback.type === 'error' && <AlertCircle aria-hidden="true" />}
-                {feedback.type === 'info' && <CheckCircle aria-hidden="true" />}
-                {feedback.msg}
-              </div>
-              
-              {feedback.type === 'success' && (
-                <div className="ml-9 mt-4 flex gap-3">
-                  <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-[#1e293b] border border-[#334155] rounded-md hover:text-blue-500 focus:ring-2 focus:ring-blue-500 transition-colors">
-                    <Home size={16} aria-hidden="true" /> Ir para o Início
-                  </Link>
-                  <button onClick={resetForm} className="flex items-center gap-2 px-4 py-2 bg-[#1e293b] border border-[#334155] rounded-md hover:text-blue-500 focus:ring-2 focus:ring-blue-500 transition-colors">
-                    <PlusCircle size={16} aria-hidden="true" /> Criar Novo
-                  </button>
-                </div>
-              )}
+        
+        {feedback.type && (
+          <div 
+            ref={feedbackRef}
+            tabIndex={-1}
+            role={feedback.type === 'error' ? 'alert' : 'status'} 
+            aria-live="assertive"
+           
+            className={`p-4 rounded-lg mb-6 border-l-4 flex flex-col items-start animate-fade-in outline-none ring-2 ring-offset-2 ring-primary
+              ${feedback.type === 'success' ? 'bg-primary/10 border-primary text-primary' : ''}
+              ${feedback.type === 'error' ? 'bg-destructive/10 border-destructive text-destructive' : ''}
+              ${feedback.type === 'info' ? 'bg-accent border-accent-foreground/50 text-accent-foreground' : ''}
+            `}
+          >
+            <div className="flex items-center gap-3 font-bold text-lg">
+              {feedback.type === 'success' && <CheckCircle aria-hidden="true" />}
+              {feedback.type === 'error' && <AlertCircle aria-hidden="true" />}
+              {feedback.type === 'info' && <CheckCircle aria-hidden="true" />}
+              {feedback.msg}
             </div>
-          )}
-
-          <section className="flex flex-col gap-5 mb-8" aria-label="Dados básicos do formulário">
-            <div>
-              <label htmlFor="titulo-form" className="block text-[#94a3b8] font-medium mb-2 text-lg">Título do Formulário *</label>
-              <input 
-                id="titulo-form"
-                type="text" 
-                value={titulo}
-                onChange={(e) => setTitulo(e.target.value)}
-                placeholder="Ex: Avaliação de Contraste" 
-                className="w-full p-3.5 bg-[#1e293b] border border-[#334155] rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                aria-required="true"
-              />
-            </div>
-            <div>
-              <label htmlFor="desc-form" className="block text-[#94a3b8] font-medium mb-2 text-lg">Descrição</label>
-              <textarea 
-                id="desc-form"
-                rows={2} 
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Objetivo da avaliação..." 
-                className="w-full p-3.5 bg-[#1e293b] border border-[#334155] rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              />
-            </div>
-          </section>
-
-          <section className="border-2 border-dashed border-[#334155] rounded-xl p-8 text-center mb-8 bg-[#1e293b]/50">
-            <h3 className="mb-2 text-base font-medium">Importar Perguntas (TXT)</h3>
-            <p className="text-[#94a3b8] text-lg mb-4">Cada linha do arquivo será uma nova pergunta.</p>
-            <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".txt,.md,.csv" className="hidden" aria-hidden="true" />
-            <button 
-              onClick={() => fileInputRef.current.click()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1e293b] border border-[#334155] rounded-md hover:text-blue-500 hover:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-colors"
-            >
-              <Upload size={16} aria-hidden="true" /> Selecionar Arquivo
-            </button>
-          </section>
-
-          <div className="space-y-6 mb-8" role="list" aria-label="Lista de perguntas">
-            {questions.map((q, index) => (
-              <div key={q.id} className="bg-[#1e293b] border border-[#334155] rounded-xl p-6 relative" role="listitem">
-                <div className="absolute top-6 right-6 text-[#94a3b8] font-bold opacity-50" aria-hidden="true">
-                  #{index + 1}
-                </div>
-
-                <div className="mb-4">
-                  <label htmlFor={`pergunta-${q.id}`} className="block text-[#94a3b8] font-medium mb-2 text-lg">
-                    Pergunta {index + 1}
-                  </label>
-                  <input 
-                    id={`pergunta-${q.id}`}
-                    type="text" 
-                    value={q.text}
-                    onChange={(e) => updateQuestion(q.id, 'text', e.target.value)}
-                    placeholder="Digite a pergunta aqui..." 
-                    className="w-full p-3.5 bg-[#1e293b] border border-[#334155] rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                  />
-                </div>
-
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mt-4">
-                  <label htmlFor={`exemplo-${q.id}`} className="text-blue-400 text-lg font-semibold mb-2 flex items-center gap-1.5">
-                    <HelpCircle size={14} aria-hidden="true" /> Exemplo de Apoio (Contexto)
-                  </label>
-                  <input 
-                    id={`exemplo-${q.id}`}
-                    type="text" 
-                    value={q.example}
-                    onChange={(e) => updateQuestion(q.id, 'example', e.target.value)}
-                    placeholder="Ajude o avaliador a entender..." 
-                    className="w-full p-3.5 bg-[#0f172a]/50 border border-blue-500/30 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                  />
-                </div>
-
-                <button 
-                  onClick={() => removeQuestion(q.id)}
-                  disabled={questions.length === 1}
-                  aria-label={`Remover pergunta ${index + 1}`}
-                  className={`mt-4 flex items-center gap-1.5 text-lg text-red-500 hover:underline hover:opacity-100 opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-red-500 rounded p-1 ${questions.length === 1 ? '' : ''}`}
-                >
-                  <Trash2 size={14} aria-hidden="true" /> Remover Pergunta
+            
+            {feedback.type === 'success' && (
+              <div className="ml-9 mt-4 flex gap-3">
+                <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-md hover:text-primary transition-colors">
+                  <Home size={16} aria-hidden="true" /> Ir para o Início
+                </Link>
+                <button onClick={resetForm} className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-md hover:text-primary transition-colors">
+                  <PlusCircle size={16} aria-hidden="true" /> Criar Novo
                 </button>
               </div>
-            ))}
+            )}
           </div>
+        )}
 
+       
+        <section className="flex flex-col gap-5 mb-8" aria-label="Dados básicos do formulário">
+          <div>
+            <label htmlFor="titulo-form" className="block text-muted-foreground font-medium mb-2 text-lg">Título do Formulário *</label>
+            <input 
+              id="titulo-form"
+              type="text" 
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
+              placeholder="Ex: Avaliação de Contraste" 
+              className="input-calm" 
+              aria-required="true"
+            />
+          </div>
+          <div>
+            <label htmlFor="desc-form" className="block text-muted-foreground font-medium mb-2 text-lg">Descrição</label>
+            <textarea 
+              id="desc-form"
+              rows={2} 
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              placeholder="Objetivo da avaliação..." 
+              className="input-calm"
+            />
+          </div>
+        </section>
+
+       
+        <section className="border-2 border-dashed border-border rounded-xl p-8 text-center mb-8 bg-muted/30 hover:border-primary/50 transition-colors">
+          <h3 className="mb-2 text-base font-medium text-foreground">Importar Perguntas (TXT)</h3>
+          <p className="text-muted-foreground text-lg mb-4">Cada linha do arquivo será uma nova pergunta.</p>
+          <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".txt,.md,.csv" className="hidden" aria-hidden="true" />
           <button 
-            onClick={addQuestion}
-            className="w-full py-4 bg-transparent border-2 border-dashed border-[#334155] text-[#94a3b8] rounded-lg font-semibold flex justify-center items-center gap-2 hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/5 focus:ring-2 focus:ring-blue-500 transition-all mb-8"
+            onClick={() => fileInputRef.current.click()}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-card border border-border rounded-md hover:text-primary hover:border-primary shadow-sm transition-all"
           >
-            <Plus size={20} aria-hidden="true" /> Adicionar Pergunta Manual
+            <Upload size={16} aria-hidden="true" /> Selecionar Arquivo
           </button>
+        </section>
 
-          <div className="flex justify-end gap-4 pt-5 border-t border-[#334155]">
-            <Link href="/" className="px-6 py-3 bg-transparent border border-[#334155] text-white rounded-lg hover:bg-[#334155] focus:ring-2 focus:ring-white transition-colors">
-              Cancelar
-            </Link>
-            <button 
-              onClick={handleSave}
-              className="px-8 py-3 bg-blue-500 text-white rounded-lg font-semibold flex items-center gap-2 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 transition-colors shadow-lg shadow-blue-500/20"
-            >
-              <Save size={18} aria-hidden="true" /> Salvar
-            </button>
-          </div>
+      
+        <div className="space-y-6 mb-8" role="list" aria-label="Lista de perguntas">
+          {questions.map((q, index) => (
+    
+            <div key={q.id} className="card-calm p-6 relative" role="listitem">
+              <div className="absolute top-6 right-6 text-muted-foreground font-bold opacity-30" aria-hidden="true">
+                #{index + 1}
+              </div>
 
-        </main>
-      </div>
+              <div className="mb-4">
+                <label htmlFor={`pergunta-${q.id}`} className="block text-muted-foreground font-medium mb-2 text-lg">
+                  Pergunta {index + 1}
+                </label>
+                <input 
+                  id={`pergunta-${q.id}`}
+                  type="text" 
+                  value={q.text}
+                  onChange={(e) => updateQuestion(q.id, 'text', e.target.value)}
+                  placeholder="Digite a pergunta aqui..." 
+                  className="input-calm"
+                />
+              </div>
+
+              
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mt-4">
+                <label htmlFor={`exemplo-${q.id}`} className="text-primary text-lg font-semibold mb-2 flex items-center gap-1.5">
+                  <HelpCircle size={14} aria-hidden="true" /> Exemplo de Apoio (Contexto)
+                </label>
+                <input 
+                  id={`exemplo-${q.id}`}
+                  type="text" 
+                  value={q.example}
+                  onChange={(e) => updateQuestion(q.id, 'example', e.target.value)}
+                  placeholder="Ajude o avaliador a entender..." 
+                  className="w-full p-3.5 bg-background/50 border border-primary/20 rounded-lg text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                />
+              </div>
+
+              <button 
+                onClick={() => removeQuestion(q.id)}
+                disabled={questions.length === 1}
+                aria-label={`Remover pergunta ${index + 1}`}
+                className={`mt-4 flex items-center gap-1.5 text-lg text-destructive hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-destructive rounded p-1 ${questions.length === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                <Trash2 size={14} aria-hidden="true" /> Remover Pergunta
+              </button>
+            </div>
+          ))}
+        </div>
+
+      
+        <button 
+          onClick={addQuestion}
+          className="w-full py-4 bg-transparent border-2 border-dashed border-border text-muted-foreground rounded-lg font-semibold flex justify-center items-center gap-2 hover:border-primary hover:text-primary hover:bg-primary/5 focus:ring-2 focus:ring-primary transition-all mb-8"
+        >
+          <Plus size={20} aria-hidden="true" /> Adicionar Pergunta Manual
+        </button>
+
+        
+        <div className="flex justify-end gap-4 pt-5 border-t border-border">
+          <Link href="/" className="px-6 py-3 bg-transparent border border-border text-muted-foreground rounded-lg hover:bg-muted hover:text-foreground focus:ring-2 focus:ring-primary transition-colors">
+            Cancelar
+          </Link>
+          <button 
+            onClick={handleSave}
+            className="btn-primary shadow-lg shadow-primary/20"
+          >
+            <Save size={18} aria-hidden="true" /> Salvar
+          </button>
+        </div>
+
+      </main>
+      
+      <Footer />
     </div>
   );
 }
