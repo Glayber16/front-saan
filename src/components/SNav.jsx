@@ -1,7 +1,7 @@
-"use client"; 
+"use client";
 
 import React, { useState } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react"; 
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const NAV_LINKS = [
@@ -17,51 +17,46 @@ export function SNav() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        
+    <nav className="fixed left-0 top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md transition-colors duration-300">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <div className="shrink-0">
-          <a href="#" className="font-bold text-xl text-foreground">
+          <a href="#" className="text-xl font-bold text-foreground">
             Avaliador
           </a>
         </div>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden items-center gap-6 md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-muted-foreground text-sm font-medium hover:text-primary transition-colors"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
               {link.label}
             </a>
           ))}
-          
+
           <button
             onClick={toggleTheme}
-
-            className="flex flex-col items-center justify-center gap-0.5 p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted/50 transition-all group"
+            className="group flex flex-col items-center justify-center gap-0.5 rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted/50 hover:text-primary"
             title="Alternar Tema"
           >
-            <div className="group-hover:text-primary transition-colors">
-              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            <div className="transition-colors group-hover:text-primary">
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wide leading-none">
-              {theme === 'dark' ? 'Claro' : 'Escuro'}
+            <span className="text-[10px] font-bold uppercase leading-none tracking-wide">
+              {theme === "dark" ? "Claro" : "Escuro"}
             </span>
           </button>
 
-          <a 
-            href="#iniciar" 
-            className="btn-primary text-sm shadow-lg shadow-primary/20 ml-4"
-          >
+          <a href="#iniciar" className="btn-primary ml-4 text-sm shadow-lg shadow-primary/20">
             Começar Avaliação
           </a>
         </div>
 
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 text-foreground hover:bg-muted rounded-lg transition-colors"
+          className="rounded-lg p-2 text-foreground transition-colors hover:bg-muted md:hidden"
           aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -69,31 +64,31 @@ export function SNav() {
       </div>
 
       {isMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-background border-b border-border shadow-lg animate-in slide-in-from-top-5">
-          <div className="flex flex-col p-4 space-y-4">
+        <div className="animate-in slide-in-from-top-5 absolute left-0 top-16 w-full border-b border-border bg-background shadow-lg md:hidden">
+          <div className="flex flex-col space-y-4 p-4">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsMenuOpen(false)} 
-                className="text-foreground text-base font-medium py-2 hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+                className="py-2 text-base font-medium text-foreground transition-colors hover:text-primary"
               >
                 {link.label}
               </a>
             ))}
-            
-            <button 
+
+            <button
               onClick={toggleTheme}
-              className="flex items-center gap-3 text-foreground font-medium py-2 hover:text-primary"
+              className="flex items-center gap-3 py-2 font-medium text-foreground hover:text-primary"
             >
-               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-               <span>Alternar Tema ({theme === 'dark' ? 'Claro' : 'Escuro'})</span>
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              <span>Alternar Tema ({theme === "dark" ? "Claro" : "Escuro"})</span>
             </button>
 
-            <a 
+            <a
               href="#iniciar"
-              onClick={() => setIsMenuOpen(false)} 
-              className="w-full btn-primary justify-center"
+              onClick={() => setIsMenuOpen(false)}
+              className="btn-primary w-full justify-center"
             >
               Começar Avaliação
             </a>

@@ -6,15 +6,11 @@ export function LikertOption({ label, isSelected, onClick }) {
       onClick={onClick}
       type="button"
       aria-pressed={isSelected}
-      className={`
-        flex items-center justify-center h-14 px-2 py-3 rounded-md text-sm transition-all duration-200 border w-full
-        ${isSelected 
-        
-          ? "bg-primary/20 border-primary text-primary font-semibold ring-1 ring-primary" 
-          
-          : "bg-card border-border text-muted-foreground hover:bg-muted hover:text-foreground hover:border-primary/50"
-        }
-      `}
+      className={`flex h-14 w-full items-center justify-center rounded-md border px-2 py-3 text-sm transition-all duration-200 ${
+        isSelected
+          ? "border-primary bg-primary/20 font-semibold text-primary ring-1 ring-primary"
+          : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:bg-muted hover:text-foreground"
+      } `}
     >
       <span className="text-center leading-tight">{label}</span>
     </button>

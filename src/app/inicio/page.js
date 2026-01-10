@@ -2,88 +2,77 @@
 
 import React from "react";
 import Link from "next/link";
-import { Settings2, ClipboardCheck, Briefcase, UserCheck } from "lucide-react"; 
+import { Settings2, ClipboardCheck, Briefcase, UserCheck } from "lucide-react";
 import { SystemNav } from "@/components/SystemNav";
 import { Footer } from "@/components/Footer";
 
 export default function PortalPage() {
   return (
-    
     <div className="page-container flex flex-col font-sans">
-      
       <SystemNav description="Avaliação de Acessibilidade" />
 
-      <main className="flex-1 flex flex-col items-center justify-center p-5">
-        
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-foreground mb-3">Portal de Avaliações</h1>
-          <p className="text-muted-foreground text-lg">Selecione seu perfil para continuar</p>
+      <main className="flex flex-1 flex-col items-center justify-center p-5">
+        <div className="mb-10 text-center">
+          <h1 className="mb-3 text-4xl font-extrabold text-foreground">Portal de Avaliações</h1>
+          <p className="text-lg text-muted-foreground">Selecione seu perfil para continuar</p>
         </div>
 
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[800px]">
-        
-        
-          <Link 
-            href="/cadastroForms" 
-            className="group card-calm p-10 flex flex-col items-center text-center hover:border-primary hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+        <div className="grid w-full max-w-[800px] grid-cols-1 gap-6 md:grid-cols-2">
+          <Link
+            href="/cadastroForms"
+            className="card-calm group flex flex-col items-center p-10 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl"
           >
-            <div className="w-20 h-20 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110">
               <Settings2 size={40} />
             </div>
-            <h2 className="text-2xl font-semibold text-foreground mb-2">Sou Admin</h2>
-            <p className="text-muted-foreground leading-relaxed">
+            <h2 className="mb-2 text-2xl font-semibold text-foreground">Sou Admin</h2>
+            <p className="leading-relaxed text-muted-foreground">
               Cadastrar formulários, gerenciar perguntas e definir escalas.
             </p>
           </Link>
 
-          
-          <Link 
+          <Link
             href="/visualizar"
-            className="group card-calm p-10 flex flex-col items-center text-center hover:border-primary hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+            className="card-calm group flex flex-col items-center p-10 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl"
           >
-            <div className="w-20 h-20 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110">
               <ClipboardCheck size={40} />
             </div>
-            <h2 className="text-2xl font-semibold text-foreground mb-2">Sou Avaliador</h2>
-            <p className="text-muted-foreground leading-relaxed">
+            <h2 className="mb-2 text-2xl font-semibold text-foreground">Sou Avaliador</h2>
+            <p className="leading-relaxed text-muted-foreground">
               Responder avaliações disponíveis e testar a plataforma.
             </p>
           </Link>
 
-          
-          <Link 
-            href="/aplicacoes" 
-            className="group card-calm p-10 flex flex-col items-center text-center hover:border-primary hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+          <Link
+            href="/aplicacoes"
+            className="card-calm group flex flex-col items-center p-10 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl"
           >
-            <div className="w-20 h-20 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Briefcase size={40} /> 
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110">
+              <Briefcase size={40} />
             </div>
-            <h2 className="text-2xl font-semibold text-foreground mb-2">Sou Engenheiro</h2>
-            <p className="text-muted-foreground leading-relaxed">
+            <h2 className="mb-2 text-2xl font-semibold text-foreground">Sou Engenheiro</h2>
+            <p className="leading-relaxed text-muted-foreground">
               Cadastrar aplicações e atribuir formulários a avaliadores.
             </p>
           </Link>
 
-          
-          <Link 
-            href="/cliente" 
-            className="group card-calm p-10 flex flex-col items-center text-center hover:border-primary hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+          <Link
+            href="/cliente"
+            className="card-calm group flex flex-col items-center p-10 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl"
           >
-            <div className="w-20 h-20 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <UserCheck size={40} /> 
+            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110">
+              <UserCheck size={40} />
             </div>
-            <h2 className="text-2xl font-semibold text-foreground mb-2">Sou Cliente</h2>
-            <p className="text-muted-foreground leading-relaxed">
+            <h2 className="mb-2 text-2xl font-semibold text-foreground">Sou Cliente</h2>
+            <p className="leading-relaxed text-muted-foreground">
               Consultar a nota (0 a 10) de acessibilidade por aplicação.
             </p>
           </Link>
-
         </div>
       </main>
 
       <Footer />
-
     </div>
   );
 }
