@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const openDyslexic = localFont({
-  src: "../fonts/OpenDyslexic-Regular.otf", 
+  src: "../fonts/OpenDyslexic-Regular.otf",
   variable: "--font-dyslexic",
   weight: "400",
 });
@@ -27,12 +27,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body 
+      <body
         className={`${geistSans.variable} ${geistMono.variable} ${openDyslexic.variable} font-sans antialiased`}
       >
-        <ThemeProvider>
-            {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

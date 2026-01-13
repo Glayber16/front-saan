@@ -4,7 +4,6 @@
 
 @layer base {
   html {
-    
     transition: font-size 0.2s ease-in-out;
   }
   :root {
@@ -129,9 +128,8 @@
   .dark .page-container {
     background: var(--background);
   }
-  
 }
-.dyslexic, 
+.dyslexic,
 .dyslexic * {
   font-family: var(--font-dyslexic), sans-serif !important;
 }

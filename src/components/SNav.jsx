@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, Moon, Sun, Type, AArrowDown, AArrowUp, RotateCcw} from "lucide-react";
+import { Menu, X, Moon, Sun, Type, AArrowDown, AArrowUp, RotateCcw } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const NAV_LINKS = [
@@ -14,10 +14,15 @@ const NAV_LINKS = [
 
 export function SNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { 
-    theme, toggleTheme, 
-    fontDyslexic, toggleFont, 
-    fontSize, increaseFont, decreaseFont, resetFont 
+  const {
+    theme,
+    toggleTheme,
+    fontDyslexic,
+    toggleFont,
+    fontSize,
+    increaseFont,
+    decreaseFont,
+    resetFont,
   } = useTheme();
 
   return (
@@ -40,15 +45,26 @@ export function SNav() {
             </a>
           ))}
 
-          <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-1 mr-2">
-              <button onClick={decreaseFont} disabled={fontSize <= 85} className="p-1 hover:text-primary disabled:opacity-30">
-                <AArrowDown size={16} />
-              </button>
-              <button onClick={resetFont} className=" p-1 hover:text-primary disabled:opacity-30"> <RotateCcw size={16} /> </button>
-              <button onClick={increaseFont} disabled={fontSize >= 125} className="p-1 hover:text-primary disabled:opacity-30">
-                <AArrowUp size={16} />
-              </button>
-            </div>
+          <div className="mr-2 flex items-center gap-1 rounded-lg bg-muted/50 p-1">
+            <button
+              onClick={decreaseFont}
+              disabled={fontSize <= 85}
+              className="p-1 hover:text-primary disabled:opacity-30"
+            >
+              <AArrowDown size={16} />
+            </button>
+            <button onClick={resetFont} className="p-1 hover:text-primary disabled:opacity-30">
+              {" "}
+              <RotateCcw size={16} />{" "}
+            </button>
+            <button
+              onClick={increaseFont}
+              disabled={fontSize >= 125}
+              className="p-1 hover:text-primary disabled:opacity-30"
+            >
+              <AArrowUp size={16} />
+            </button>
+          </div>
 
           <button
             onClick={toggleTheme}
@@ -65,16 +81,15 @@ export function SNav() {
 
           <button
             onClick={toggleFont}
-            className={`flex flex-col items-center justify-center gap-0.5 p-2 rounded-lg transition-all group
-              ${fontDyslexic 
+            className={`group flex flex-col items-center justify-center gap-0.5 rounded-lg p-2 transition-all ${
+              fontDyslexic
                 ? "bg-primary/10 text-primary"
                 : "text-muted-foreground hover:bg-muted/50 hover:text-primary"
-              }
-            `}
+            } `}
             title="Fonte para Dislexia"
           >
             <Type size={20} />
-            <span className="text-[10px] font-bold uppercase tracking-wide leading-none">
+            <span className="text-[10px] font-bold uppercase leading-none tracking-wide">
               {fontDyslexic ? "On" : "Off"}
             </span>
           </button>
