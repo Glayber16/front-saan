@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Layers, Moon, Sun } from "lucide-react";
+import { Layers, Moon, Sun, Type, AArrowDown, AArrowUp, RotateCcw} from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const NAV_CONFIG = {
@@ -26,7 +26,11 @@ const NAV_CONFIG = {
 
 export function SystemNav({ description = "Avaliação", mode = "public" }) {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
+  const { 
+      theme, toggleTheme, 
+      fontDyslexic, toggleFont, 
+      fontSize, increaseFont, decreaseFont, resetFont 
+    } = useTheme();
   const currentLinks = NAV_CONFIG[mode] || NAV_CONFIG.public;
 
   return (
@@ -57,6 +61,17 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
 
         <div className="mx-2 hidden h-8 w-px bg-border md:block"></div>
 
+        <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-1 mr-2">
+          <button onClick={decreaseFont} disabled={fontSize <= 85} className="p-1 hover:text-primary disabled:opacity-30">
+            <AArrowDown size={16} />
+          </button>
+          <button onClick={resetFont} className=" p-1 hover:text-primary disabled:opacity-30"> <RotateCcw size={16} /> </button>
+          <button onClick={increaseFont} disabled={fontSize >= 125} className="p-1 hover:text-primary disabled:opacity-30">
+            <AArrowUp size={16} />
+          </button>
+        </div>
+
+
         <button
           onClick={toggleTheme}
           className="group flex flex-col items-center justify-center gap-0.5 rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted/50 hover:text-primary"
@@ -69,6 +84,23 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
             {theme === "dark" ? "Claro" : "Escuro"}
           </span>
         </button>
+
+        <button
+            onClick={toggleFont}
+            className={`flex flex-col items-center justify-center gap-0.5 p-2 rounded-lg transition-all group
+              ${fontDyslexic 
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-muted/50 hover:text-primary"
+              }
+            `}
+            title="Fonte para Dislexia"
+          >
+            <Type size={20} />
+            <span className="text-[10px] font-bold uppercase tracking-wide leading-none">
+              {fontDyslexic ? "On" : "Off"}
+            </span>
+          </button>
+
       </div>
     </nav>
   );

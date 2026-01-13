@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    
+    transition: font-size 0.2s ease-in-out;
+  }
   :root {
-    /* --- LIGHT MODE (Sálvia/Calmo) --- */
     --background: 150 20% 98%;
     --foreground: 200 15% 15%;
 
@@ -35,7 +38,6 @@
 
     --radius: 0.75rem;
 
-    /* Variáveis Customizadas do Tema */
     --shadow-card: 0 1px 3px hsl(200 15% 15% / 0.04), 0 4px 12px -2px hsl(200 15% 15% / 0.06);
     --shadow-elevated:
       0 8px 24px -8px hsl(200 15% 15% / 0.1), 0 16px 48px -16px hsl(200 15% 15% / 0.12);
@@ -50,7 +52,6 @@
   }
 
   .dark {
-    /* --- DARK MODE (Profundo/Sério) --- */
     --background: 200 20% 10%;
     --foreground: 150 15% 95%;
 
@@ -101,7 +102,6 @@
 }
 
 @layer components {
-  /* Cards */
   .card-calm {
     @apply rounded-xl border border-border/50 bg-card;
     box-shadow: var(--shadow-card);
@@ -114,23 +114,24 @@
     transform: translateY(-2px);
   }
 
-  /* Inputs */
   .input-calm {
     @apply w-full rounded-lg border border-border bg-muted/50 px-4 py-3 text-foreground transition-all duration-200 placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
   }
 
-  /* Botões */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2;
   }
 
-  /* Utilitários Específicos */
   .page-container {
     @apply min-h-screen;
     background: var(--gradient-sage);
   }
-  /* Ajuste para Dark Mode no gradiente da página */
   .dark .page-container {
     background: var(--background);
   }
+  
+}
+.dyslexic, 
+.dyslexic * {
+  font-family: var(--font-dyslexic), sans-serif !important;
 }

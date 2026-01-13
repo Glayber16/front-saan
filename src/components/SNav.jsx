@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, Type, AArrowDown, AArrowUp, RotateCcw} from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const NAV_LINKS = [
@@ -14,7 +14,11 @@ const NAV_LINKS = [
 
 export function SNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { 
+    theme, toggleTheme, 
+    fontDyslexic, toggleFont, 
+    fontSize, increaseFont, decreaseFont, resetFont 
+  } = useTheme();
 
   return (
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md transition-colors duration-300">
@@ -36,6 +40,16 @@ export function SNav() {
             </a>
           ))}
 
+          <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-1 mr-2">
+              <button onClick={decreaseFont} disabled={fontSize <= 85} className="p-1 hover:text-primary disabled:opacity-30">
+                <AArrowDown size={16} />
+              </button>
+              <button onClick={resetFont} className=" p-1 hover:text-primary disabled:opacity-30"> <RotateCcw size={16} /> </button>
+              <button onClick={increaseFont} disabled={fontSize >= 125} className="p-1 hover:text-primary disabled:opacity-30">
+                <AArrowUp size={16} />
+              </button>
+            </div>
+
           <button
             onClick={toggleTheme}
             className="group flex flex-col items-center justify-center gap-0.5 rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted/50 hover:text-primary"
@@ -46,6 +60,22 @@ export function SNav() {
             </div>
             <span className="text-[10px] font-bold uppercase leading-none tracking-wide">
               {theme === "dark" ? "Claro" : "Escuro"}
+            </span>
+          </button>
+
+          <button
+            onClick={toggleFont}
+            className={`flex flex-col items-center justify-center gap-0.5 p-2 rounded-lg transition-all group
+              ${fontDyslexic 
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-muted/50 hover:text-primary"
+              }
+            `}
+            title="Fonte para Dislexia"
+          >
+            <Type size={20} />
+            <span className="text-[10px] font-bold uppercase tracking-wide leading-none">
+              {fontDyslexic ? "On" : "Off"}
             </span>
           </button>
 
