@@ -32,7 +32,7 @@ export default function PortalPage() {
           </Link>
 
           <Link
-            href="/visualizar"
+            href="/getForms"
             className="card-calm group flex flex-col items-center p-10 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl"
           >
             <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110">
