@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { Info } from "lucide-react";
-import { LikertOption } from "./LikertOption";
-import { LIKERT } from "@/data/likert";
+import React, {useState} from "react";
+import {Info} from "lucide-react";
+import {LikertOption} from "./LikertOption";
+import {LIKERT} from "@/data/likert";
 
 function getCleanLabel(title) {
   return title ? title.replace(/^[0-9]+\.\s*/, "") : "";
 }
 
-export function QuestionCard({ question, index }) {
+export function QuestionCard({question, index}) {
   const [selectedOption, setSelectedOption] = useState(null);
 
   return (

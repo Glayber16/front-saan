@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Link from "next/link";
-import { Layers, Loader2, RefreshCw, FolderOpen, Plus } from "lucide-react";
-import { SystemNav } from "@/components/SystemNav";
-import { Footer } from "@/components/Footer";
-import { QuestionCard } from "@/components/QuestionCard";
+import {Layers, Loader2, RefreshCw, FolderOpen, Plus} from "lucide-react";
+import {SystemNav} from "@/components/SystemNav";
+import {Footer} from "@/components/Footer";
+import {QuestionCard} from "@/components/QuestionCard";
 
 export default function VisualizarPage() {
   const [forms, setForms] = useState([]);

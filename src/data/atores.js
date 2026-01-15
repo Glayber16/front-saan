@@ -1,11 +1,10 @@
-import { UserCog, Smartphone, ClipboardCheck, BarChart3 } from "lucide-react";
+import {UserCog, Smartphone, ClipboardCheck, BarChart3} from "lucide-react";
 
 export const ACTORS = [
   {
     id: "admin",
     title: "Admin",
-    description:
-      "Cadastra formulários de avaliação personalizados utilizando escalas Likert com exemplos nos itens.",
+    description: "Cadastra formulários de avaliação personalizados utilizando escalas Likert com exemplos nos itens.",
     icon: UserCog,
   },
   {
@@ -18,15 +17,13 @@ export const ACTORS = [
   {
     id: "avaliador",
     title: "Avaliador",
-    description:
-      "Realiza avaliações quantitativas e qualitativas. Pode ser neurotípico ou neurodivergente.",
+    description: "Realiza avaliações quantitativas e qualitativas. Pode ser neurotípico ou neurodivergente.",
     icon: ClipboardCheck,
   },
   {
     id: "stakeholder",
     title: "Cliente/Stakeholder",
-    description:
-      "Visualiza relatórios consolidados e índices de acessibilidade, com opção de exportar em PDF.",
+    description: "Visualiza relatórios consolidados e índices de acessibilidade, com opção de exportar em PDF.",
     icon: BarChart3,
   },
 ];

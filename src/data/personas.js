@@ -1,4 +1,4 @@
-import { Zap, Infinity, Type } from "lucide-react";
+import {Zap, Infinity, Type} from "lucide-react";
 
 export const PERSONAS = [
   {

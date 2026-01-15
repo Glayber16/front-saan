@@ -2,9 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { Settings2, ClipboardCheck, Briefcase, UserCheck } from "lucide-react";
-import { SystemNav } from "@/components/SystemNav";
-import { Footer } from "@/components/Footer";
+import {Settings2, ClipboardCheck, Briefcase, UserCheck} from "lucide-react";
+import {SystemNav} from "@/components/SystemNav";
+import {Footer} from "@/components/Footer";
 
 export default function PortalPage() {
   return (

@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {api} from "@/services/api";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { LogIn, AlertCircle, Loader2 } from "lucide-react";
-import { Footer } from "@/components/Footer";
-import { SystemNav } from "@/components/SystemNav";
+import {useRouter} from "next/navigation";
+import {LogIn, AlertCircle, Loader2} from "lucide-react";
+import {Footer} from "@/components/Footer";
+import {SystemNav} from "@/components/SystemNav";
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({ user: "", pass: "" });
+  const [formData, setFormData] = useState({user: "", pass: ""});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +20,16 @@ export default function LoginPage() {
     setError("");
 
     try {
-      console.log("Dados para envio:", formData);
+      await api.post("/auth/login", {
+        username: formData.user,
+        password: formData.pass,
+      });
+
+      localStorage.setItem("auth_state", "true");
+
+      router.push("/inicio");
     } catch (err) {
-      setError("Falha ao realizar login.");
+      setError(err.message || "Falha ao realizar login.");
     } finally {
       setLoading(false);
     }
@@ -55,7 +63,7 @@ export default function LoginPage() {
                 placeholder="ex: joao"
                 className="input-calm"
                 value={formData.user}
-                onChange={(e) => setFormData({ ...formData, user: e.target.value })}
+                onChange={(e) => setFormData({...formData, user: e.target.value})}
               />
             </div>
 
@@ -69,15 +77,11 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 className="input-calm"
                 value={formData.pass}
-                onChange={(e) => setFormData({ ...formData, pass: e.target.value })}
+                onChange={(e) => setFormData({...formData, pass: e.target.value})}
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary mt-4 w-full disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="btn-primary mt-4 w-full disabled:opacity-50">
               {loading ? (
                 <Loader2 className="animate-spin" size={20} />
               ) : (
@@ -90,10 +94,7 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             Não tem uma conta?{" "}
-            <Link
-              href="/cadastro"
-              className="font-semibold text-primary transition-all hover:underline"
-            >
+            <Link href="/cadastro" className="font-semibold text-primary transition-all hover:underline">
               Criar conta
             </Link>
           </div>

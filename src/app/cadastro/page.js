@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {api} from "@/services/api";
+import {useRouter} from "next/navigation";
 import Link from "next/link";
-import { UserPlus, AlertCircle, Loader2 } from "lucide-react";
-import { Footer } from "@/components/Footer";
-import { SystemNav } from "@/components/SystemNav";
+import {UserPlus, AlertCircle, Loader2} from "lucide-react";
+import {Footer} from "@/components/Footer";
+import {SystemNav} from "@/components/SystemNav";
 
 export default function CadastroPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -21,10 +24,14 @@ export default function CadastroPage() {
     setError("");
 
     try {
-      console.log("Dados de cadastro:", formData);
-      // await fetch...
+      await api.post("/auth/register", {
+        username: formData.user,
+        password: formData.pass,
+        role: formData.role,
+      });
+      router.push("/login");
     } catch (err) {
-      setError("Erro ao criar conta.");
+      setError(err.message || "Erro ao criar conta.");
     } finally {
       setLoading(false);
     }
@@ -57,7 +64,7 @@ export default function CadastroPage() {
                 required
                 className="input-calm"
                 value={formData.user}
-                onChange={(e) => setFormData({ ...formData, user: e.target.value })}
+                onChange={(e) => setFormData({...formData, user: e.target.value})}
               />
             </div>
 
@@ -70,7 +77,7 @@ export default function CadastroPage() {
                 required
                 className="input-calm"
                 value={formData.pass}
-                onChange={(e) => setFormData({ ...formData, pass: e.target.value })}
+                onChange={(e) => setFormData({...formData, pass: e.target.value})}
               />
             </div>
 
@@ -82,7 +89,7 @@ export default function CadastroPage() {
                 <select
                   className="input-calm cursor-pointer appearance-none"
                   value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                  onChange={(e) => setFormData({...formData, role: e.target.value})}
                 >
                   <option value="admin">Admin</option>
                   <option value="engenheiro">Engenheiro de Testes</option>
@@ -92,22 +99,13 @@ export default function CadastroPage() {
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </div>
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary mt-4 w-full disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="btn-primary mt-4 w-full disabled:opacity-50">
               {loading ? (
                 <Loader2 className="animate-spin" size={20} />
               ) : (
@@ -120,10 +118,7 @@ export default function CadastroPage() {
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             Já tem uma conta?{" "}
-            <Link
-              href="/login"
-              className="font-semibold text-primary transition-all hover:underline"
-            >
+            <Link href="/login" className="font-semibold text-primary transition-all hover:underline">
               Fazer Login
             </Link>
           </div>

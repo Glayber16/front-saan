@@ -1,29 +1,33 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import Link from "next/link";
-import {
-  Home,
-  CheckCircle,
-  AlertCircle,
-  Upload,
-  Plus,
-  Save,
-  Trash2,
-  HelpCircle,
-  PlusCircle,
-} from "lucide-react";
-import { SystemNav } from "@/components/SystemNav";
-import { Footer } from "@/components/Footer";
+import {Home, CheckCircle, AlertCircle, Upload, Plus, Save, Trash2, HelpCircle, PlusCircle} from "lucide-react";
+import {SystemNav} from "@/components/SystemNav";
+import {Footer} from "@/components/Footer";
+import {api} from "@/services/api";
+import {useProtectedPage} from "@/hooks/useProtectedPage";
+import {Loader2} from "lucide-react";
 
 export default function CadastroForms() {
+  const {authorized, loading} = useProtectedPage(["admin", "engenheiro"]);
+
+  const STANDARD_GROUPS = [
+    "Ajuda os usuários a entender o que são as coisas e como usá-las?",
+    "Reduz a carga cognitiva?",
+    "Apoia conhecimentos e hábitos existentes",
+    "Fornece suporte e treinamento?",
+    "Dá suporte à memória e atenção?",
+    "Fornece suporte a erros?",
+    "Fornece feedback oportuno, adequado e consistente?",
+    "Permite personalização, flexibilidade e alternativas?",
+  ];
+
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [questions, setQuestions] = useState([
-    { id: 1, text: "", example: "", scaleType: "5-point" },
-  ]);
+  const [questions, setQuestions] = useState([{id: 1, text: "", example: "", scaleType: "5-point", group: ""}]);
 
-  const [feedback, setFeedback] = useState({ type: "", msg: "" });
+  const [feedback, setFeedback] = useState({type: "", msg: ""});
 
   const fileInputRef = useRef(null);
   const feedbackRef = useRef(null);
@@ -36,7 +40,8 @@ export default function CadastroForms() {
 
   const addQuestion = () => {
     const maxId = questions.length > 0 ? Math.max(...questions.map((q) => q.id)) : 0;
-    setQuestions([...questions, { id: maxId + 1, text: "", example: "", scaleType: "5-point" }]);
+    const lastGroup = questions.length > 0 ? questions[questions.length - 1].group : "";
+    setQuestions([...questions, {id: maxId + 1, text: "", example: "", scaleType: "5-point", group: lastGroup}]);
   };
 
   const removeQuestion = (id) => {
@@ -45,7 +50,7 @@ export default function CadastroForms() {
   };
 
   const updateQuestion = (id, field, value) => {
-    setQuestions(questions.map((q) => (q.id === id ? { ...q, [field]: value } : q)));
+    setQuestions(questions.map((q) => (q.id === id ? {...q, [field]: value} : q)));
   };
 
   const handleFileUpload = (event) => {
@@ -56,33 +61,62 @@ export default function CadastroForms() {
     reader.onload = (e) => {
       const lines = e.target.result.split(/\r?\n/).filter((line) => line.trim() !== "");
       if (lines.length === 0) {
-        setFeedback({ type: "error", msg: "O arquivo está vazio." });
+        setFeedback({type: "error", msg: "O arquivo está vazio."});
         return;
       }
       let currentQuestions = [...questions];
       if (currentQuestions.length === 1 && currentQuestions[0].text.trim() === "") {
         currentQuestions = [];
       }
-      const maxId =
-        currentQuestions.length > 0 ? Math.max(...currentQuestions.map((q) => q.id)) : 0;
-      const newQs = lines.map((line, idx) => {
-        let qText = line;
-        let qExample = "";
-        const regex = /exemplo:/i;
-        if (regex.test(line)) {
-          const parts = line.split(regex);
-          qText = parts[0].trim();
-          qExample = parts.slice(1).join("exemplo:").trim();
+      const maxId = currentQuestions.length > 0 ? Math.max(...currentQuestions.map((q) => q.id)) : 0;
+
+      let currentGroup = "";
+      const newQs = [];
+      let currentIdx = 0;
+
+      lines.forEach((line) => {
+        const content = line.trim();
+        if (content.startsWith("#")) {
+          const rawGroup = content.replace(/^#+\s*/, "").trim();
+          // Fuzzy match against STANDARD_GROUPS
+          let matchedGroup = rawGroup;
+
+          // Remove punctuation and lowercase for comparison
+          const cleanRaw = rawGroup.toLowerCase().replace(/[?.,]/g, "").trim();
+
+          for (const std of STANDARD_GROUPS) {
+            const cleanStd = std.toLowerCase().replace(/[?.,]/g, "").trim();
+            if (cleanStd === cleanRaw || cleanStd.includes(cleanRaw) || cleanRaw.includes(cleanStd)) {
+              matchedGroup = std;
+              break;
+            }
+          }
+          currentGroup = matchedGroup;
         } else {
-          qText = line.trim();
+          let qText = content;
+          let qExample = "";
+          const regex = /exemplo:/i;
+          if (regex.test(content)) {
+            const parts = content.split(regex);
+            qText = parts[0].trim();
+            qExample = parts.slice(1).join("exemplo:").trim();
+          }
+          newQs.push({
+            id: maxId + currentIdx + 1,
+            text: qText,
+            example: qExample,
+            scaleType: "5-point",
+            group: currentGroup,
+          });
+          currentIdx++;
         }
-        return { id: maxId + idx + 1, text: qText, example: qExample, scaleType: "5-point" };
       });
+
       setQuestions([...currentQuestions, ...newQs]);
-      setFeedback({ type: "info", msg: "Perguntas importadas!" });
-      setTimeout(() => setFeedback({ type: "", msg: "" }), 4000);
+      setFeedback({type: "info", msg: "Perguntas importadas!"});
+      setTimeout(() => setFeedback({type: "", msg: ""}), 4000);
     };
-    reader.onerror = () => setFeedback({ type: "error", msg: "Erro ao ler o arquivo." });
+    reader.onerror = () => setFeedback({type: "error", msg: "Erro ao ler o arquivo."});
     reader.readAsText(file);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -90,19 +124,44 @@ export default function CadastroForms() {
   const resetForm = () => {
     setTitulo("");
     setDescricao("");
-    setQuestions([{ id: 1, text: "", example: "", scaleType: "5-point" }]);
-    setFeedback({ type: "", msg: "" });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setQuestions([{id: 1, text: "", example: "", scaleType: "5-point", group: ""}]);
+    setFeedback({type: "", msg: ""});
+    window.scrollTo({top: 0, behavior: "smooth"});
   };
 
   const handleSave = async () => {
     if (!titulo.trim()) {
-      setFeedback({ type: "error", msg: "Preencha o título do formulário." });
+      setFeedback({type: "error", msg: "Preencha o título do formulário."});
       return;
     }
-    // Lógica de salvamento...
-    setFeedback({ type: "success", msg: "Formulário salvo com sucesso!" });
+
+    try {
+      const payload = {
+        title: titulo,
+        description: descricao,
+        questions: questions.map((q) => ({
+          text: q.text,
+          example: q.example,
+          scaleType: q.scaleType || "Likert 5-point",
+          group: q.group,
+        })),
+      };
+
+      await api.post("/forms", payload);
+      setFeedback({type: "success", msg: "Formulário salvo com sucesso!"});
+      setTimeout(() => resetForm(), 2000);
+    } catch (err) {
+      setFeedback({type: "error", msg: err.message || "Erro ao salvar formulário."});
+    }
   };
+
+  if (loading)
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="animate-spin text-primary" size={48} />
+      </div>
+    );
+  if (!authorized) return null;
 
   return (
     <div className="page-container flex flex-col font-sans">
@@ -152,10 +211,7 @@ export default function CadastroForms() {
 
         <section className="mb-8 flex flex-col gap-5" aria-label="Dados básicos do formulário">
           <div>
-            <label
-              htmlFor="titulo-form"
-              className="mb-2 block text-lg font-medium text-muted-foreground"
-            >
+            <label htmlFor="titulo-form" className="mb-2 block text-lg font-medium text-muted-foreground">
               Título do Formulário *
             </label>
             <input
@@ -169,10 +225,7 @@ export default function CadastroForms() {
             />
           </div>
           <div>
-            <label
-              htmlFor="desc-form"
-              className="mb-2 block text-lg font-medium text-muted-foreground"
-            >
+            <label htmlFor="desc-form" className="mb-2 block text-lg font-medium text-muted-foreground">
               Descrição
             </label>
             <textarea
@@ -188,9 +241,7 @@ export default function CadastroForms() {
 
         <section className="mb-8 rounded-xl border-2 border-dashed border-border bg-muted/30 p-8 text-center transition-colors hover:border-primary/50">
           <h3 className="mb-2 text-base font-medium text-foreground">Importar Perguntas (TXT)</h3>
-          <p className="mb-4 text-lg text-muted-foreground">
-            Cada linha do arquivo será uma nova pergunta.
-          </p>
+          <p className="mb-4 text-lg text-muted-foreground">Cada linha do arquivo será uma nova pergunta.</p>
           <input
             type="file"
             ref={fileInputRef}
@@ -210,18 +261,29 @@ export default function CadastroForms() {
         <div className="mb-8 space-y-6" role="list" aria-label="Lista de perguntas">
           {questions.map((q, index) => (
             <div key={q.id} className="card-calm relative p-6" role="listitem">
-              <div
-                className="absolute right-6 top-6 font-bold text-muted-foreground opacity-30"
-                aria-hidden="true"
-              >
+              <div className="absolute right-6 top-6 font-bold text-muted-foreground opacity-30" aria-hidden="true">
                 #{index + 1}
               </div>
 
               <div className="mb-4">
-                <label
-                  htmlFor={`pergunta-${q.id}`}
-                  className="mb-2 block text-lg font-medium text-muted-foreground"
+                <label htmlFor={`group-${q.id}`} className="mb-2 block text-sm font-medium text-muted-foreground">
+                  Grupo / Tema (Opcional)
+                </label>
+                <select
+                  id={`group-${q.id}`}
+                  className="input-calm mb-4 cursor-pointer appearance-none"
+                  value={q.group || ""}
+                  onChange={(e) => updateQuestion(q.id, "group", e.target.value)}
                 >
+                  <option value="">Selecione um Grupo / Tema...</option>
+                  {STANDARD_GROUPS.map((g, i) => (
+                    <option key={i} value={g}>
+                      {g}
+                    </option>
+                  ))}
+                </select>
+
+                <label htmlFor={`pergunta-${q.id}`} className="mb-2 block text-lg font-medium text-muted-foreground">
                   Pergunta {index + 1}
                 </label>
                 <input

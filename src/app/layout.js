@@ -1,7 +1,7 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import {ThemeProvider} from "@/contexts/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +24,10 @@ export const metadata = {
   description: "Portal de Acessibilidade",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({children}) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${openDyslexic.variable} font-sans antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} ${openDyslexic.variable} font-sans antialiased`}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

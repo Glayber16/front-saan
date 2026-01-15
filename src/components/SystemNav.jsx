@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {
   Layers,
   Moon,
@@ -17,46 +17,37 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
-import { api } from "@/services/api";
-import { useEffect, useState } from "react";
-import { checkAuth } from "@/utils/auth";
+import {useTheme} from "@/contexts/ThemeContext";
+import {api} from "@/services/api";
+import {useEffect, useState} from "react";
+import {checkAuth} from "@/utils/auth";
 
 const NAV_CONFIG = {
   admin: [
-    { label: "Home", href: "/inicio" },
-    { label: "Visualizar", href: "/visualizar" },
-    { label: "Cadastrar", href: "/cadastroForms" },
-    { label: "Engenharia", href: "/aplicacoes" },
+    {label: "Home", href: "/inicio"},
+    {label: "Visualizar", href: "/visualizar"},
+    {label: "Cadastrar", href: "/cadastroForms"},
+    {label: "Engenharia", href: "/aplicacoes"},
   ],
   avaliador: [
-    { label: "Home", href: "/inicio" },
-    { label: "Visualizar", href: "/visualizar" },
+    {label: "Home", href: "/inicio"},
+    {label: "Visualizar", href: "/visualizar"},
   ],
   public: [
-    { label: "Home", href: "/" },
-    { label: "Login", href: "/login" },
-    { label: "Cadastro", href: "/cadastro" },
+    {label: "Home", href: "/"},
+    {label: "Login", href: "/login"},
+    {label: "Cadastro", href: "/cadastro"},
   ],
-  publicLoggedIn: [{ label: "Home", href: "/" }],
+  publicLoggedIn: [{label: "Home", href: "/"}],
 };
 
-export function SystemNav({ description = "Avaliação", mode = "public" }) {
+export function SystemNav({description = "Avaliação", mode = "public"}) {
   const pathname = usePathname();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const {
-    theme,
-    toggleTheme,
-    fontDyslexic,
-    toggleFont,
-    fontSize,
-    increaseFont,
-    decreaseFont,
-    resetFont,
-  } = useTheme();
+  const {theme, toggleTheme, fontDyslexic, toggleFont, fontSize, increaseFont, decreaseFont, resetFont} = useTheme();
 
   useEffect(() => {
     setIsLoggedIn(checkAuth());
@@ -88,7 +79,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
           {isLoggedIn && (
             <button
               onClick={() => router.back()}
-              className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               title="Voltar"
             >
               <ArrowLeft size={20} />
@@ -99,9 +90,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
             className="flex items-center gap-2 text-xl font-bold no-underline"
           >
             <Layers className="text-primary" aria-hidden="true" />
-            <span className="text-foreground transition-colors">
-              {description}
-            </span>
+            <span className="text-foreground transition-colors">{description}</span>
           </Link>
         </div>
 
@@ -114,9 +103,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
                   key={link.href}
                   href={link.href}
                   className={`outline-none transition-colors duration-200 ${
-                    isActive
-                      ? "font-bold text-primary"
-                      : "text-muted-foreground hover:text-primary focus:text-primary"
+                    isActive ? "font-bold text-primary" : "text-muted-foreground hover:text-primary focus:text-primary"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -136,10 +123,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
             >
               <AArrowDown size={16} />
             </button>
-            <button
-              onClick={resetFont}
-              className="p-1 hover:text-primary disabled:opacity-30"
-            >
+            <button onClick={resetFont} className="p-1 hover:text-primary disabled:opacity-30">
               <RotateCcw size={16} />
             </button>
             <button
@@ -164,9 +148,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
           <button
             onClick={toggleFont}
             className={`group flex flex-col items-center justify-center gap-0.5 rounded-lg p-2 transition-all ${
-              fontDyslexic
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted/50 hover:text-primary"
+              fontDyslexic ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted/50 hover:text-primary"
             }`}
             title="Fonte para Dislexia"
           >
@@ -194,9 +176,9 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
       </div>
 
       {isMenuOpen && (
-        <div className="absolute left-0 top-16 w-full animate-in slide-in-from-top-5 border-b border-border bg-card shadow-lg md:hidden">
+        <div className="animate-in slide-in-from-top-5 absolute left-0 top-16 w-full border-b border-border bg-card shadow-lg md:hidden">
           <div className="flex max-h-[85vh] flex-col overflow-y-auto p-4">
-            <div className="flex flex-col space-y-2 pb-4 border-b border-border/50">
+            <div className="flex flex-col space-y-2 border-b border-border/50 pb-4">
               {currentLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -205,9 +187,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
                     className={`rounded-md px-3 py-2 text-base font-medium transition-colors ${
-                      isActive
-                        ? "bg-primary/10 text-primary"
-                        : "text-foreground hover:bg-muted"
+                      isActive ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted"
                     }`}
                   >
                     {link.label}
@@ -217,9 +197,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
             </div>
 
             <div className="mt-4 space-y-3 rounded-lg bg-muted/30 p-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Acessibilidade
-              </span>
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Acessibilidade</span>
 
               <div className="flex items-center justify-between">
                 <span className="text-sm text-foreground">Tamanho Texto</span>
@@ -231,9 +209,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
                   >
                     <Minus size={16} />
                   </button>
-                  <span className="w-10 text-center font-mono text-xs font-bold">
-                    {fontSize}%
-                  </span>
+                  <span className="w-10 text-center font-mono text-xs font-bold">{fontSize}%</span>
                   <button
                     onClick={increaseFont}
                     disabled={fontSize >= 125}
@@ -251,9 +227,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
                 <span className="text-sm text-foreground">Fonte Dislexia</span>
                 <div
                   className={`rounded p-1 ${
-                    fontDyslexic
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground"
+                    fontDyslexic ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                   }`}
                 >
                   <Type size={16} />
@@ -267,9 +241,7 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
                 <span className="text-sm text-foreground">Tema Escuro</span>
                 <div
                   className={`rounded p-1 ${
-                    theme === "dark"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground"
+                    theme === "dark" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                   }`}
                 >
                   {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
@@ -278,10 +250,10 @@ export function SystemNav({ description = "Avaliação", mode = "public" }) {
             </div>
 
             {(mode !== "public" || isLoggedIn) && (
-              <div className="mt-4 pt-2 border-t border-border/50">
+              <div className="mt-4 border-t border-border/50 pt-2">
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg border border-destructive/20 py-3 text-destructive hover:bg-destructive/10 font-medium"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg border border-destructive/20 py-3 font-medium text-destructive hover:bg-destructive/10"
                 >
                   <LogOut size={18} /> Sair do Sistema
                 </button>

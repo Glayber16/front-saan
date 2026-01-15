@@ -1,10 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 
 const ThemeContext = createContext(null);
 
-export function ThemeProvider({ children }) {
+export function ThemeProvider({children}) {
   const [theme, setTheme] = useState("light");
   const [fontDyslexic, setFontDyslexic] = useState(false);
   const [fontSize, setFontSize] = useState(100);

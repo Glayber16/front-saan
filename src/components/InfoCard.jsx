@@ -1,6 +1,6 @@
 import React from "react";
 
-export function InfoCard({ title, description, icon: Icon }) {
+export function InfoCard({title, description, icon: Icon}) {
   return (
     <article className="card-calm flex h-full flex-col gap-3 p-6 transition-all hover:border-primary/50">
       {Icon && (

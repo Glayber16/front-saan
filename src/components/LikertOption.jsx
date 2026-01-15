@@ -1,6 +1,6 @@
 import React from "react";
 
-export function LikertOption({ label, isSelected, onClick }) {
+export function LikertOption({label, isSelected, onClick}) {
   return (
     <button
       onClick={onClick}

@@ -1,4 +1,4 @@
-import { LIKERT } from "@/data/likert";
+import {LIKERT} from "@/data/likert";
 
 export default function EscalaCard() {
   return (

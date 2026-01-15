@@ -26,8 +26,7 @@ export const LIKERT = [
   {
     id: "4",
     title: "4 - Concordo",
-    description:
-      "A experiência é boa e acessível, com poucos ou nenhum obstáculo encontrado durante a interação.",
+    description: "A experiência é boa e acessível, com poucos ou nenhum obstáculo encontrado durante a interação.",
   },
   {
     id: "5",
