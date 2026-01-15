@@ -17,7 +17,6 @@ export function useProtectedPage(allowedRoles = []) {
         const role = res?.user?.role;
         setUserRole(role);
 
-        // Start Debug
         console.log(`[RBAC] User Role: ${role}, Allowed: ${allowedRoles}`);
 
         if (!role) {
@@ -30,7 +29,6 @@ export function useProtectedPage(allowedRoles = []) {
         const normalizedAllowed = allowedRoles.map((r) => r.toLowerCase());
 
         if (allowedRoles.length > 0 && !normalizedAllowed.includes(normalizedRole)) {
-          // Redirect unauthorized users
           if (normalizedRole === "avaliador") router.replace("/visualizar");
           else if (normalizedRole === "stakeholder" || normalizedRole === "cliente") router.replace("/cliente");
           else router.replace("/inicio");
